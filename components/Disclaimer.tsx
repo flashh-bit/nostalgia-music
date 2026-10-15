@@ -11,8 +11,16 @@ export function openDisclaimer() {
 
 export default function Disclaimer() {
   const [visible, setVisible] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // Detect mobile device / narrow viewport
+    const checkMobile = () => {
+      const mobileCheck = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      setIsMobile(mobileCheck);
+    };
+    checkMobile();
+
     // Show on mount for 6 seconds, then fade out
     const timer = setTimeout(() => {
       setVisible(false);
@@ -73,6 +81,17 @@ export default function Disclaimer() {
               Disclaimer
             </h3>
             
+            {isMobile && (
+              <div className="mb-3 px-3 py-2 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-200/90 text-[12px] flex items-center justify-center gap-1.5 font-medium">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                  <line x1="8" y1="21" x2="16" y2="21" />
+                  <line x1="12" y1="17" x2="12" y2="21" />
+                </svg>
+                <span>Best experienced on a desktop browser!</span>
+              </div>
+            )}
+
             <p className="text-white/60 text-[12px] leading-relaxed mb-5">
               All music and visual content belongs to their respective owners. 
               This project is for personal, non-commercial nostalgic purposes only.
